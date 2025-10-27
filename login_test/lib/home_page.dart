@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
@@ -24,30 +25,31 @@ class HomePage extends StatelessWidget {
           margin: const EdgeInsets.all(16),
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Text('Sesión activa ', style: TextStyle(fontSize: 18)),
-              const SizedBox(height: 8),
-              Text('UID: ${user.uid}', textAlign: TextAlign.center),
-              if (user.email != null) Text('Email: ${user.email}'),
-              const SizedBox(height: 8),
-              Text(
-                
-                ),
-              ),
-              const SizedBox(height: 8),
-              if (!user.emailVerified)
-                ElevatedButton(
-                  onPressed: () async {
-                    await user.sendEmailVerification();
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Correo de verificación enviado.')),
-                    );
-                  },
-                  child: const Text('Enviar verificación'),
-                ),
-            ]),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Sesión activa ', style: TextStyle(fontSize: 18)),
+                const SizedBox(height: 8),
+                Text('UID: ${user.uid}', textAlign: TextAlign.center),
+                if (user.email != null) Text('Email: ${user.email}'),
+                const SizedBox(height: 8),
+                Text('Email verificado: ${user.emailVerified ? "Sí" : "No"}'),
+                const SizedBox(height: 8),
+                if (!user.emailVerified)
+                  ElevatedButton(
+                    onPressed: () async {
+                      await user.sendEmailVerification();
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Correo de verificación enviado.'),
+                        ),
+                      );
+                    },
+                    child: const Text('Enviar verificación'),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
